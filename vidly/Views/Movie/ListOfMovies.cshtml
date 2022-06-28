@@ -1,0 +1,54 @@
+﻿@*
+    @model vidly.Models.Movie
+    @using vidly.Models
+*@
+
+@model vidly.ViewModel.ListOfMoviesViewModel
+
+@{
+    ViewBag.Title = "List of movies";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>@Model.Name</h2>
+    @*<h2>@( ((Movie) ViewData["movie"]).Name)</h2*@
+
+@*<h2>@Model.Movie.Name</h2>*@
+
+@{
+    var className = Model.Movies.Count() > 1 ? "Popular" : null;
+}
+
+<h1 class="@className">Liste of movies </h1>
+
+
+
+@{
+    if (Model.Movies.Count() == 0)
+    {
+        <h2>We don't have movies </h2>
+    }
+    else
+    {
+
+        <table class="table table-sm table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Test</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Movies) 
+                {
+                    <tr class="table-secondary">
+                        <th scope="row">Active</th>
+                        <td><a href="Movie/DetailMovie/@item.Id">@item.Name</a></td>
+                        <td>Column content</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
