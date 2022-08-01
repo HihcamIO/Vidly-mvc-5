@@ -19,9 +19,20 @@ namespace vidly.Controllers
             //ViewBag["movie"] = movie;
 
             //var viewResultat = new ViewResult();
-            //viewResultat.Model
+            //viewResultat.Model 
 
-            var lstMovies = new List<Movie>
+            var lstOfMoviesViewModel = new MovieViewModel
+            {
+                Movies = GetMovies()
+            }; 
+
+            //return View(movie);
+            return View(lstOfMoviesViewModel);
+        }
+
+        public IEnumerable<Movie> GetMovies()
+        {
+            return new List<Movie>
             {
                 new Movie(){ Id = 1, Name = "Movie 1" },
                 new Movie(){ Id = 2, Name = "Movie 2" },
@@ -31,23 +42,19 @@ namespace vidly.Controllers
                 new Movie(){ Id = 6, Name = "Movie 6" },
                 new Movie(){ Id = 7, Name = "Movie 7" }
             };
-
-            var lstOfMoviesViewModel = new ListOfMoviesViewModel()
-            { 
-                Movies = lstMovies
-            }; 
-
-            //return View(movie);
-            return View(lstOfMoviesViewModel);
         }
 
         public ActionResult DetailMovie(int id)
         {
-            Movie movie = new Movie();
+            var movie = GetMovies().SingleOrDefault(m => m.Id == id);
 
-            //search movie by id 
+            if (movie == null)
+                return HttpNotFound();
 
-            return View(movie);
+            MovieViewModel movieViewModel = new MovieViewModel();
+            movieViewModel.Name = movie.Name;
+
+            return View(movieViewModel);
         }
 
         public ActionResult Index(int? id, string name)
